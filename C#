@@ -1,0 +1,24 @@
+public void Eliminar(int valor) => Raiz = EliminarRecursivo(Raiz, valor);
+
+private Nodo EliminarRecursivo(Nodo actual, int valor)
+{
+    if (actual == null) return null;
+
+    if (valor < actual.Valor)
+        actual.Izquierdo = EliminarRecursivo(actual.Izquierdo, valor);
+    else if (valor > actual.Valor)
+        actual.Derecho = EliminarRecursivo(actual.Derecho, valor);
+    else
+    {
+        // Caso 1: El nodo no tiene hijos o solo uno
+        if (actual.Izquierdo == null) return actual.Derecho;
+        if (actual.Derecho == null) return actual.Izquierdo;
+
+        // Caso 2: El nodo tiene dos hijos
+        // Buscamos el valor más pequeño en el subárbol derecho (Sucesor)
+        actual.Valor = ObtenerMinimo(actual.Derecho);
+        // Eliminamos el sucesor
+        actual.Derecho = EliminarRecursivo(actual.Derecho, actual.Valor);
+    }
+    return actual;
+}
